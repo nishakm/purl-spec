@@ -221,6 +221,34 @@ nuget
 
       pkg:nuget/EnterpriseLibrary.Common@6.0.1304
 
+oci-artifact
+------------
+``oci-artifact`` for all artifacts stored in OCI Distribution-spec conformant
+registries:
+
+- There is no canonical package repository for OCI artifacts. Therefore
+  ``oci-artifact`` pURLs must be registry agnostic.
+- OCI pURLs do not require a ``namespace``. The ``namespace`` is specific
+  to the physical location of the package.
+- The ``name`` is not case sensitive and must be lowercased. The name is the
+  last fragment of the repository name. For example if the repository
+  name is ``library/debian`` then the ``name`` is ``debian``.
+- The ``version`` is the ``@sha256:digest`` of the artifact and is strongly
+  suggested for oci artifacts.
+- Optional qualifiers may include:
+
+  - ``arch``: key for a package architecture, when relevant
+  - ``repository``: A repository URL where the artifact may be found, but not intended as the only location
+  - ``tag``: artifact tag that may have been associated with the digest at the time
+  - ``type``: type of artifact stored in an OCI registry
+- ``subpath`` is not relevant to ``oci-artifact``
+- Examples::
+
+      pkg:oci-artifact/debian@256:<shasum>?repository=docker.io/library/debian&arch=amd64&type=image
+      pkg:oci-artifact/oci.image/debian@sha256:<shasum>?tag=bullseye&type=image
+      pkg:oci-artifact/cncf.helm/metallb@sha256:<shasum>?repository=registry.io/bitnami&type=cncf.helm
+      pkg:/oci-artifact/cncf.wasm/hello-wasm@256:<shasum>?type=wasm&tag=v1
+
 pypi
 ----
 ``pypi`` for Python packages:
